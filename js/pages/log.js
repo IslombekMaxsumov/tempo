@@ -83,9 +83,40 @@
             el("h2", { id, text: Site.weekLabel(start) }),
             el("p", { class: "week-total", text: t("log.weekTotal", { count: items.length, time: Site.duration(minutes) }) })
           ),
-          el("div", { class: "workout-list" }, items.map(Site.workoutCard))
+          el("div", { class: "log-table" },
+            el("div", { class: "log-head", "aria-hidden": "true" },
+              ["log.colDay", "log.colWorkout", "log.colTime", "log.colLoad", "log.colFeel"].map((k) => el("span", { text: t(k) }))
+            ),
+            el("ul", null, items.map(row))
+          )
         );
       })
+    );
+  }
+
+  // One ruled row per workout, like a line in a training notebook:
+  // day | workout | time | load (kg lifted or km) | how it felt.
+  function row(w) {
+    const d = Fit.dates.parse(w.date);
+    const load = w.type === "strength" ? Site.measure(Fit.volume(w), "kg")
+      : w.type === "cardio" && w.cardio ? Site.measure(w.cardio.km, "km", 1)
+        : el("span", { class: "lr-none", text: "—" });
+    return el("li", null,
+      el("a", { class: "log-row type-" + w.type, href: "workout.html?id=" + encodeURIComponent(w.id) },
+        el("span", { class: "lr-day" },
+          el("span", { class: "lr-dname", text: Site.dayShort((d.getDay() + 6) % 7) }),
+          el("span", { class: "lr-dnum", text: String(d.getDate()) })
+        ),
+        el("span", { class: "lr-name" },
+          el("span", { class: "lr-icon" }, Site.icon(w.type, 16)),
+          el("span", { class: "lr-title", text: Fit.workoutName(w) }),
+          el("span", { class: "lr-type", text: t("type." + w.type) + (w.time ? " · " + w.time : "") })
+        ),
+        el("span", { class: "lr-time" }, Site.measure(w.duration, "min")),
+        el("span", { class: "lr-load" }, load),
+        el("span", { class: "lr-feel", title: t("field.feel") },
+          el("span", { class: "visually-hidden", text: t("field.feel") + ": " }), w.feel + "/5")
+      )
     );
   }
 

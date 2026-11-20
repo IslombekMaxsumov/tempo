@@ -2,8 +2,8 @@
    TEMPO layout and page parts ("Athletic Editorial").
    Hierarchy comes from type, spacing and thin rules; only charts,
    goals and a few panels are boxed. Tokens are in base.css.
-   Signature detail: the instrument dial from the logo, beside
-   section headings; citron marks only the data that matters.
+   Signature: instrument-style numbers (IBM Plex Mono figures),
+   one dominant metric per screen, citron only for the data that matters.
    ========================================================== */
 
 .container { width: min(100% - 32px, 1120px); margin-inline: auto; }
@@ -19,11 +19,7 @@
 
 /* Section headings carry the beat mark. */
 .section > h2, .section-head h2, .week-head h2, .chart-section h2, .form-section > legend {
-  display: flex; align-items: center; gap: 10px; font-size: 1.25rem; font-weight: 600;
-}
-.section > h2::before, .section-head h2::before, .chart-section h2::before {
-  content: ""; flex: none; width: 14px; height: 14px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M12.7 35.3A16 16 0 1 1 35.3 35.3' fill='none' stroke='%233e9a9e' stroke-width='7' stroke-linecap='round'/%3E%3Cpath d='M24 24 33 13' stroke='%233e9a9e' stroke-width='6' stroke-linecap='round'/%3E%3Ccircle cx='24' cy='24' r='6' fill='%23c9d23c'/%3E%3C/svg%3E") no-repeat center / contain;
+  font-size: 1.25rem; font-weight: 600;
 }
 .section > h2, .chart-section h2 { margin-bottom: var(--s4); }
 .section-head, .page-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--s2) var(--s4); }
@@ -262,7 +258,7 @@
 .ex-actions { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s2); margin-top: var(--s3); }
 .add-ex { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--s2); align-items: end; }
 .live-summary { padding: var(--s4); border-radius: var(--r-card); background: var(--raised); }
-.live-summary h2 { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2); margin-bottom: var(--s2); font-family: var(--font-body); }
+.live-summary h2 { font-size: 0.875rem; font-weight: 600; color: var(--ink-2); margin-bottom: var(--s2); font-family: var(--font-body); }
 .live-summary dl { display: flex; flex-wrap: wrap; gap: var(--s3) var(--s6); }
 .live-summary dt { font-size: 0.8125rem; color: var(--ink-2); }
 .live-summary dd { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; font-variant-numeric: tabular-nums; }
@@ -371,7 +367,7 @@
 .ex-head .ex-icon { width: 56px; height: 56px; border-radius: 12px; }
 .ex-head h1 { margin: 0; }
 .ex-info { display: grid; gap: var(--s6); padding-block: var(--s5); border-block: 1px solid var(--line); }
-.ex-info h2 { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2); margin-bottom: var(--s2); font-family: var(--font-body); }
+.ex-info h2 { font-size: 0.875rem; font-weight: 600; color: var(--ink-2); margin-bottom: var(--s2); font-family: var(--font-body); }
 .ex-info p { max-width: 55ch; }
 @media (min-width: 860px) { .ex-info { grid-template-columns: 2fr 1.3fr 1fr; } }
 .muscle-list { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -394,3 +390,76 @@
 .records-table thead th:nth-child(1) { width: 44%; }
 .records-table thead th:nth-child(2) { width: 30%; }
 @media (max-width: 480px) { .records-table th, .records-table td { padding-inline: 6px; } }
+
+
+/* ==========================================================
+   Instrument details
+   ========================================================== */
+/* Figures in a mono face, like a training instrument (digits only; words stay Inter). */
+.m-n, .streak-num, .total-value, .goal-now strong, .stat dd, .live-summary dd, .hero-value,
+.set-row .input, .sets-table td, .stepper .input, .lr-dnum, .lr-feel, .chart text, .ring-sub {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+.m-u { font-family: var(--font-body); }
+
+/* Today: the training week, one big number */
+.today-head h1 { font-size: clamp(2.6rem, 9vw, 4.2rem); font-weight: 700; letter-spacing: -0.03em; }
+.day-line { color: var(--ink-2); font-weight: 500; }
+.week-metrics { display: grid; gap: var(--s5); }
+.hero-metric { display: grid; gap: var(--s1); padding-block: var(--s2); }
+.hero-label { font-weight: 600; color: var(--ink-2); }
+.hero-value { font-size: clamp(3.6rem, 16vw, 6.5rem); font-weight: 600; line-height: 0.95; color: var(--ink); }
+.hero-value .m-u { font-size: 0.3em; margin-left: 4px; }
+.hero-sub { color: var(--ink-2); font-size: 0.9375rem; }
+.hero-bar { height: 5px; max-width: 520px; margin-top: var(--s2); border-radius: 3px; background: var(--raised); overflow: hidden; }
+.hero-fill { display: block; height: 100%; border-radius: 3px; background: var(--brand); transition: width 0.6s var(--ease); }
+.hero-fill.is-done { background: var(--chart-4); } /* olive-citron in light mode, bright citron in dark */
+.side-metrics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+.ring.ring-small {
+  display: grid; grid-template-columns: 56px minmax(0, 1fr); align-items: center; gap: var(--s3); justify-items: start; text-align: left;
+  padding: var(--s3) 0; border: 0; border-radius: 0; background: transparent;
+}
+.side-metrics .ring-small + .ring-small { padding-left: var(--s4); border-left: 1px solid var(--line); }
+.ring-small svg { width: 56px; max-width: 56px; }
+.ring-small figcaption { position: static; aspect-ratio: auto; max-width: none; margin: 0; justify-items: start; align-content: start; }
+.ring-small .ring-text { font-size: 1.15rem; }
+.ring-small .ring-label { position: static; margin-top: 2px; font-size: 0.8125rem; color: var(--ink-2); }
+@media (min-width: 860px) {
+  .week-metrics { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); align-items: end; gap: var(--s8); }
+  .side-metrics { grid-template-columns: minmax(0, 1fr); border-top: 0; border-left: 1px solid var(--line); padding-left: var(--s6); }
+  .side-metrics .ring-small + .ring-small { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
+}
+
+/* Log: a ruled training notebook */
+.log-table { border-top: 2px solid var(--ink); }
+.log-head, .log-row {
+  display: grid; grid-template-columns: 48px minmax(0, 1fr) 88px 104px 44px; gap: var(--s3); align-items: center;
+}
+.log-head { padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); }
+.log-head span:nth-child(n + 3) { text-align: right; }
+.log-row { padding: 10px 0; border-bottom: 1px solid var(--line); color: var(--ink); text-decoration: none; transition: background-color 0.15s var(--ease); }
+.log-row:hover { background: var(--surface); }
+.log-row:hover .lr-title { color: var(--accent-text); text-decoration: underline; }
+.lr-day { display: grid; justify-items: center; line-height: 1.1; }
+.lr-dname { font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; color: var(--ink-2); }
+.lr-dnum { font-size: 1.25rem; font-weight: 600; }
+.lr-name { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: var(--s2); align-items: center; min-width: 0; }
+.lr-icon { grid-row: span 2; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 7px; color: var(--cat); background: color-mix(in srgb, var(--cat) 14%, transparent); }
+.lr-title { font-family: var(--font-display); font-weight: 600; overflow-wrap: anywhere; }
+.lr-type { font-size: 0.8125rem; color: var(--cat-text); }
+.lr-time, .lr-load, .lr-feel { text-align: right; justify-self: end; }
+.lr-feel { color: var(--ink-2); font-size: 0.875rem; }
+.lr-none { color: var(--ink-2); }
+/* Phones: day | name, with time · load · feel on the second line */
+@media (max-width: 640px) {
+  .log-head { display: none; }
+  .log-row { grid-template-columns: 44px minmax(0, 1fr) auto; grid-template-areas: "day name feel" "day time load"; row-gap: 4px; }
+  .lr-day { grid-area: day; }
+  .lr-name { grid-area: name; }
+  .lr-feel { grid-area: feel; }
+  .lr-time { grid-area: time; justify-self: start; padding-left: 38px; }
+  .lr-load { grid-area: load; }
+}
+@media (prefers-reduced-motion: reduce) { .hero-fill { transition: none !important; } }

@@ -1,14 +1,18 @@
-/* Today: greeting, this week's rings against the goals, streak, the week
-   strip and the last 3 workouts. */
+/* Today: the training week number, one big number for this week (active
+   minutes) with the other goals small beside it, streak, the week strip and
+   the last 3 workouts. */
 (function () {
   "use strict";
   const { t } = Core;
   const { el, icon } = Site;
   const $ = (id) => document.getElementById(id);
 
-  function greeting() {
-    const h = new Date().getHours();
-    return t(h < 5 ? "today.night" : h < 12 ? "today.morning" : h < 18 ? "today.afternoon" : "today.evening");
+  // ISO week number (weeks start on Monday; week 1 holds the first Thursday).
+  function isoWeek(isoDate) {
+    const d = Fit.dates.parse(isoDate);
+    d.setDate(d.getDate() - ((d.getDay() + 6) % 7) + 3); // Thursday of this week
+    const jan4 = new Date(d.getFullYear(), 0, 4, 12);
+    return 1 + Math.round(((d - jan4) / 86400000 - 3 + ((jan4.getDay() + 6) % 7)) / 7);
   }
 
   // "2 more workouts to reach this week's goal", or a well-done message only
@@ -27,28 +31,39 @@
     const goals = Fit.goals();
     const [week] = Fit.weekly(1, list);
 
-    $("todayDate").textContent = Site.date(Fit.dates.today(), { weekday: true });
-    $("greeting").textContent = greeting();
+    // "Week 47" / "Day 5 of 7 · Friday 20 November", like a training plan.
+    const today = Fit.dates.today();
+    const dayN = ((Fit.dates.parse(today).getDay() + 6) % 7) + 1;
+    $("greeting").textContent = t("today.weekNo", { n: isoWeek(today) });
+    $("todayDate").textContent = t("today.dayLine", { n: dayN, date: Site.date(today, { weekday: true }) });
     $("emptyAll").hidden = list.length > 0;
     $("nudge").textContent = list.length ? nudge(week, goals) : "";
 
-    // Rings: workouts, minutes and volume (or km) against the weekly goals.
-    const third = goals.km.on && !goals.volume.on ? "km" : "volume";
-    const rings = [
-      ["workouts", week.count, (v) => Site.num(v), ""],
-      ["minutes", week.minutes, (v) => Site.num(v), "min"],
-      [third, third === "km" ? week.km : week.volume, (v) => Site.num(v, third === "km" ? 1 : 0), third === "km" ? "km" : "kg"],
-    ];
-    $("rings").replaceChildren(
-      ...rings.map(([key, value, fmt, u]) => {
-        const g = goals[key];
-        return Site.ring({
-          value, target: g.on ? g.target : 0, metric: key, text: Site.measure(value, u, key === "km" ? 1 : 0),
-          sub: g.on ? t("today.of", { target: fmt(g.target) }) : "",
-          label: t("goal." + key),
-        });
-      })
+    // One hero number (active minutes this week), the other goals small beside it.
+    const m = goals.minutes;
+    const pct = m.on ? Math.min(100, Math.round((week.minutes / m.target) * 100)) : 0;
+    const hero = el("div", { class: "hero-metric" },
+      el("p", { class: "hero-label", id: "heroLabel", text: t("today.heroLabel") }),
+      el("p", { class: "hero-value" }, Site.measure(week.minutes, "min")),
+      m.on && el("p", { class: "hero-sub", text: t("today.ofGoal", { target: Site.unit(m.target, "min"), pct }) }),
+      m.on && el("div", { class: "hero-bar", role: "progressbar", "aria-labelledby": "heroLabel", "aria-valuemin": 0, "aria-valuemax": 100, "aria-valuenow": pct },
+        el("span", { class: "hero-fill" + (pct >= 100 ? " is-done" : ""), style: `width:${pct}%` }))
     );
+    const third = goals.km.on && !goals.volume.on ? "km" : "volume";
+    const small = [
+      ["workouts", week.count, (v) => Site.num(v), ""],
+      [third, third === "km" ? week.km : week.volume, (v) => Site.num(v, third === "km" ? 1 : 0), third === "km" ? "km" : "kg"],
+    ].map(([key, value, fmt, u]) => {
+      const g = goals[key];
+      const ring = Site.ring({
+        value, target: g.on ? g.target : 0, metric: key, text: Site.measure(value, u, key === "km" ? 1 : 0),
+        sub: g.on ? t("today.of", { target: fmt(g.target) }) : "",
+        label: t("goal." + key),
+      });
+      ring.classList.add("ring-small");
+      return ring;
+    });
+    $("rings").replaceChildren(hero, el("div", { class: "side-metrics" }, small));
 
     // Streak
     const s = Fit.streak(list);

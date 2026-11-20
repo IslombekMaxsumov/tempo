@@ -106,6 +106,8 @@
      a similar grotesk that does. Inter covers all three languages. */
   --font-display: "Space Grotesk", "Geologica", system-ui, sans-serif;
   --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /* Numbers only: IBM Plex Mono gives the "instrument" read-out. */
+  --font-num: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
   --r-card: 12px;
   --r-ctl: 8px;
   --r-dialog: 14px;
