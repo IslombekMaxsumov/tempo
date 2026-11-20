@@ -1,5 +1,7 @@
 # TEMPO — fitness tracker
 
+**Live site: https://islombekmaxsumov.github.io/tempo/**
+
 Site #4 of my 10-websites course project. A multi-page workout tracker in plain HTML, CSS and JavaScript (no framework, no build step, no backend). Design: "Cool Mineral / Performance Instrument": blue-grey mineral and graphite, petrol teal as the brand colour, citron only for key data (records, this week). Logo: an instrument dial with a citron pivot (assets/brand, wordmark outlined from Space Grotesk Bold). Space Grotesk (Geologica for Cyrillic) + Inter. All text colours pass WCAG AA.
 
 ## Pages
