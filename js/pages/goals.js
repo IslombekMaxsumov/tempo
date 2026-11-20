@@ -41,7 +41,7 @@
       ),
       g.on && el("div", { class: "goal-body" },
         el("p", { class: "goal-now" },
-          el("strong", { text: shown(key, now.value) }),
+          el("strong", null, Site.measure(now.value, CONF[key].unit, key === "km" && now.value % 1 ? 1 : 0)),
           el("span", { text: " / " + shown(key, g.target) + " " + t("goals.thisWeek") })
         ),
         el("div", { class: "bar", role: "progressbar", "aria-valuemin": 0, "aria-valuemax": 100, "aria-valuenow": pct, "aria-labelledby": titleId },

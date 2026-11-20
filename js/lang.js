@@ -1,11 +1,11 @@
 /* All interface text in three languages. English is the fallback if a key is
    missing. Plural values ({ one, few, many, other }) are picked by `count`.
    Uzbek is in Latin script. Exercise names and how-tos are in data-exercises.js.
-   "Fitness" is a working name until the design brief picks the real one. */
+   The brand name TEMPO is the same in every language. */
 window.I18N = {
   en: {
-    "brand": "Fitness",
-    "meta.title": "Fitness — workout log and progress",
+    "brand": "TEMPO",
+    "meta.title": "TEMPO — workout log and progress",
     "meta.description": "Log your workouts, set weekly goals and watch your progress. Works in Uzbek, Russian and English.",
     "skip": "Skip to content",
 
@@ -255,8 +255,8 @@ window.I18N = {
   },
 
   ru: {
-    "brand": "Fitness",
-    "meta.title": "Fitness — дневник тренировок и прогресс",
+    "brand": "TEMPO",
+    "meta.title": "TEMPO — дневник тренировок и прогресс",
     "meta.description": "Записывайте тренировки, ставьте цели на неделю и следите за прогрессом. На узбекском, русском и английском.",
     "skip": "Перейти к содержимому",
 
@@ -506,8 +506,8 @@ window.I18N = {
   },
 
   uz: {
-    "brand": "Fitness",
-    "meta.title": "Fitness — mashg'ulotlar kundaligi va natijalar",
+    "brand": "TEMPO",
+    "meta.title": "TEMPO — mashg'ulotlar kundaligi va natijalar",
     "meta.description": "Mashg'ulotlarni yozib boring, haftalik maqsad qo'ying va natijangizni kuzating. O'zbek, rus va ingliz tillarida.",
     "skip": "Asosiy qismga o'tish",
 

@@ -42,7 +42,7 @@
   }
 
   function stat(label, value) {
-    return el("div", { class: "stat" }, el("dt", { text: label }), el("dd", { text: value }));
+    return el("div", { class: "stat" }, el("dt", { text: label }), el("dd", null, value));
   }
 
   function render() {
@@ -53,12 +53,12 @@
 
     const stats = [stat(t("stat.duration"), Site.duration(w.duration)), stat(t("field.feel"), w.feel + "/5 · " + Site.feelText(w.feel))];
     if (w.type === "strength") {
-      stats.push(stat(t("stat.sets"), Site.num(Fit.setsCount(w))), stat(t("stat.volume"), Site.unit(Fit.volume(w), "kg")));
+      stats.push(stat(t("stat.sets"), Site.measure(Fit.setsCount(w))), stat(t("stat.volume"), Site.measure(Fit.volume(w), "kg")));
     }
     if (w.type === "cardio" && w.cardio) {
-      stats.push(stat(t("stat.distance"), Site.unit(w.cardio.km, "km", 1)), stat(Site.rateLabel(w), Site.rate(w)));
+      stats.push(stat(t("stat.distance"), Site.measure(w.cardio.km, "km", 1)), stat(Site.rateLabel(w), Site.rate(w)));
     }
-    stats.push(stat(t("stat.kcal"), "≈ " + Site.unit(Fit.kcal(w), "kcal")));
+    stats.push(stat(t("stat.kcal"), el("span", null, "≈ ", Site.measure(Fit.kcal(w), "kcal"))));
 
     const exercises = w.exercises.map((e) => {
       const ex = Fit.exercise(e.exId);

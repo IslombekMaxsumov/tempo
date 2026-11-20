@@ -35,11 +35,11 @@
 
     $("totals").replaceChildren(
       ...[
-        [t("goal.workouts"), Site.num(sum("count"))],
-        [t("goal.minutes"), Site.duration(sum("minutes"))],
-        [t("goal.volume"), Site.unit(sum("volume"), "kg")],
-        [t("goal.km"), Site.unit(sum("km"), "km", 1)],
-      ].map(([label, value]) => el("div", { class: "total" }, el("span", { class: "total-value", text: value }), el("span", { class: "total-label", text: label })))
+        [t("goal.workouts"), Site.measure(sum("count"))],
+        [t("goal.minutes"), Site.measure(sum("minutes"), "min")],
+        [t("goal.volume"), Site.measure(sum("volume"), "kg")],
+        [t("goal.km"), Site.measure(sum("km"), "km", 1)],
+      ].map(([label, value]) => el("div", { class: "total" }, el("span", { class: "total-value" }, value), el("span", { class: "total-label", text: label })))
     );
 
     const items = (key, fmt) => data.map((w) => ({

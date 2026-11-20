@@ -1,6 +1,6 @@
-# Fitness tracker (working name)
+# TEMPO — fitness tracker
 
-Site #4 of my 10-websites course project. A multi-page workout tracker in plain HTML, CSS and JavaScript (no framework, no build step, no backend). The real name and look come from the design brief; the current styling is a placeholder.
+Site #4 of my 10-websites course project. A multi-page workout tracker in plain HTML, CSS and JavaScript (no framework, no build step, no backend). Design: "Athletic Editorial" — warm off-white, charcoal, burnt orange, with cobalt, teal and amber for workout types and charts. Space Grotesk (Geologica for Cyrillic) + Inter. Some brief colours were darkened for WCAG AA text contrast; the originals are noted in css/base.css.
 
 ## Pages
 | Page | What it does |

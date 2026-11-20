@@ -80,6 +80,8 @@
     return int.replace(/\B(?=(\d{3})+(?!\d))/g, sep) + (frac ? dec + frac : "");
   }
   const unit = (n, u, decimals = 0) => num(n, decimals) + " " + t("unit." + u);
+  // The same, as an element: the number big, the unit smaller and quieter.
+  const measure = (n, u, decimals = 0) => el("span", { class: "m" }, el("span", { class: "m-n", text: num(n, decimals) }), u && el("span", { class: "m-u", text: t("unit." + u) }));
   // 45 → "45 min", 95 → "1 h 35 min"
   function duration(min) {
     const h = Math.floor(min / 60);
@@ -146,11 +148,12 @@
 
   /* ---------- progress ring ---------- */
   // ring({ value, target, label, text }) — an SVG ring with the numbers in the middle.
-  function ring({ value, target, label, text, sub }) {
+  // text may be a string or an element (e.g. from measure()); metric picks the colour.
+  function ring({ value, target, label, text, sub, metric = "" }) {
     const pct = target > 0 ? Math.min(1, value / target) : 0;
     const r = 42;
     const c = 2 * Math.PI * r;
-    return el("figure", { class: "ring" + (target > 0 && value >= target ? " is-done" : "") },
+    return el("figure", { class: "ring ring-" + metric + (target > 0 && value >= target ? " is-done" : "") },
       svgEl("svg", { viewBox: "0 0 100 100", width: 112, height: 112, "aria-hidden": "true" },
         svgEl("circle", { class: "ring-track", cx: 50, cy: 50, r, fill: "none", "stroke-width": 10 }),
         svgEl("circle", {
@@ -159,7 +162,7 @@
         })
       ),
       el("figcaption", null,
-        el("span", { class: "ring-text", text }),
+        el("span", { class: "ring-text" }, text),
         sub && el("span", { class: "ring-sub", text: sub }),
         el("span", { class: "ring-label", text: label })
       )
@@ -210,40 +213,31 @@
   // Detail pages belong to a menu item.
   const SECTION = { today: "today", log: "log", workout: "log", progress: "progress", goals: "goals", exercises: "exercises", exercise: "exercises" };
 
+  // The TEMPO mark: three bars like beats getting stronger (fixed drawing, no user data).
+  const MARK = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><rect x="3" y="13" width="4" height="8" rx="1" fill="var(--brand)" opacity=".45"/><rect x="10" y="8" width="4" height="13" rx="1" fill="var(--brand)" opacity=".7"/><rect x="17" y="3" width="4" height="18" rx="1" fill="var(--brand)"/></svg>';
+
+  // On phones the menu is a tab bar at the bottom of the screen and "Add
+  // workout" is a round button above it (see site.css); on wide screens both
+  // sit in the header.
   function renderHeader() {
     const host = document.getElementById("site-header");
     if (!host) return;
     const current = SECTION[page];
-    const menuBtn = el("button", { type: "button", class: "icon-btn menu-btn", "aria-expanded": "false", "aria-controls": "site-nav", "data-i18n-aria": "nav.menu" }, icon("menu"), icon("x"));
     const nav = el("nav", { id: "site-nav", class: "site-nav", "data-i18n-aria": "nav.label" },
       el("ul", null, NAV.map(([key, href, ic]) =>
-        el("li", null, el("a", { href, "aria-current": current === key ? "page" : null }, icon(ic, 18), el("span", { "data-i18n": "page." + key })))
+        el("li", null, el("a", { href, "aria-current": current === key ? "page" : null }, icon(ic, 20), el("span", { "data-i18n": "page." + key })))
       ))
     );
-    const add = el("a", { class: "btn add-btn", href: "edit.html", "aria-current": page === "edit" ? "page" : null }, icon("plus", 18), el("span", { "data-i18n": "action.add" }));
+    const add = el("a", { class: "btn add-btn", href: "edit.html", "aria-current": page === "edit" ? "page" : null }, icon("plus", 20), el("span", { class: "add-label", "data-i18n": "action.add" }));
     const langs = el("div", { class: "seg", role: "group", "data-i18n-aria": "lang.label" },
       ["uz", "ru", "en"].map((code) => el("button", { type: "button", "data-lang": code, lang: code, text: code.toUpperCase() }))
     );
     const theme = el("button", { type: "button", id: "themeToggle", class: "icon-btn" }, icon("sun", 18), icon("moon", 18));
+    const brand = el("a", { class: "brand", href: "index.html" }, el("span", { class: "brand-mark" }), el("span", { class: "brand-name", "data-i18n": "brand" }));
+    brand.querySelector(".brand-mark").innerHTML = MARK;
 
-    host.append(el("div", { class: "container header-bar" },
-      el("a", { class: "brand", href: "index.html", "data-i18n": "brand" }),
-      nav,
-      el("div", { class: "header-tools" }, add, langs, theme, menuBtn)
-    ));
-
-    const setOpen = (open) => {
-      menuBtn.setAttribute("aria-expanded", String(open));
-      menuBtn.setAttribute("aria-label", t(open ? "nav.close" : "nav.menu"));
-      host.classList.toggle("menu-open", open);
-    };
-    menuBtn.addEventListener("click", () => setOpen(menuBtn.getAttribute("aria-expanded") !== "true"));
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && host.classList.contains("menu-open")) {
-        setOpen(false);
-        menuBtn.focus();
-      }
-    });
+    host.append(el("div", { class: "container header-bar" }, brand, nav, el("div", { class: "header-tools" }, add, langs, theme)));
+    document.body.classList.add("has-tabbar");
   }
 
   /* ---------- footer: backup, restore, demo reset ---------- */
@@ -289,7 +283,7 @@
   // Saves a backup file the page builds itself (nothing is downloaded from the web).
   function exportFile() {
     const blob = new Blob([Fit.exportData()], { type: "application/json" });
-    const a = el("a", { href: URL.createObjectURL(blob), download: `fitness-backup-${Fit.dates.today()}.json` });
+    const a = el("a", { href: URL.createObjectURL(blob), download: `tempo-backup-${Fit.dates.today()}.json` });
     document.body.append(a);
     a.click();
     a.remove();
@@ -337,7 +331,7 @@
   }
 
   window.Site = {
-    el, svgEl, icon, num, unit, duration, pace, rate, rateLabel, date, shortDate, dayShort, weekLabel,
+    el, svgEl, icon, num, unit, measure, duration, pace, rate, rateLabel, date, shortDate, dayShort, weekLabel,
     ring, confirm: confirmBox, typeTag, feelText, workoutCard, setTitle, start,
   };
 })();

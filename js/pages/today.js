@@ -35,15 +35,15 @@
     // Rings: workouts, minutes and volume (or km) against the weekly goals.
     const third = goals.km.on && !goals.volume.on ? "km" : "volume";
     const rings = [
-      ["workouts", week.count, (v) => Site.num(v)],
-      ["minutes", week.minutes, (v) => Site.num(v)],
-      [third, third === "km" ? week.km : week.volume, (v) => Site.num(v, third === "km" ? 1 : 0)],
+      ["workouts", week.count, (v) => Site.num(v), ""],
+      ["minutes", week.minutes, (v) => Site.num(v), "min"],
+      [third, third === "km" ? week.km : week.volume, (v) => Site.num(v, third === "km" ? 1 : 0), third === "km" ? "km" : "kg"],
     ];
     $("rings").replaceChildren(
-      ...rings.map(([key, value, fmt]) => {
+      ...rings.map(([key, value, fmt, u]) => {
         const g = goals[key];
         return Site.ring({
-          value, target: g.on ? g.target : 0, text: fmt(value),
+          value, target: g.on ? g.target : 0, metric: key, text: Site.measure(value, u, key === "km" ? 1 : 0),
           sub: g.on ? t("today.of", { target: fmt(g.target) }) : "",
           label: t("goal." + key),
         });
@@ -68,7 +68,7 @@
         const day = Fit.dates.addDays(start, i);
         const done = list.filter((w) => w.date === day);
         const isToday = day === Fit.dates.today();
-        return el("li", { class: "day" + (done.length ? " is-done" : "") + (isToday ? " is-today" : ""), "aria-current": isToday ? "date" : null },
+        return el("li", { class: "day" + (done.length ? " is-done type-" + done[0].type : "") + (isToday ? " is-today" : ""), "aria-current": isToday ? "date" : null },
           el("span", { class: "day-name", "aria-hidden": "true", text: Site.dayShort(i) }),
           el("span", { class: "day-dot", "aria-hidden": "true" }, done.length ? icon("check", 14) : ""),
           el("span", { class: "visually-hidden", text: Site.date(day, { weekday: true }) + ": " + (done.length ? t("today.trained", { count: done.length }) : t("today.rest")) })
