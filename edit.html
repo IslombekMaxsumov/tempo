@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fitness</title>
+  <meta name="description" content="">
+  <meta name="theme-color" content="#f3f6fb">
+  <!-- Apply the saved theme before the page is drawn, so it never flashes. -->
+  <script>
+    window.APP_NS = "fitness";
+    try {
+      var savedTheme = localStorage.getItem("fitness:theme");
+      document.documentElement.setAttribute("data-theme", savedTheme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+    } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/site.css">
+  <script defer src="js/core.js"></script>
+  <script defer src="js/lang.js"></script>
+  <script defer src="js/data-exercises.js"></script>
+  <script defer src="js/fit.js"></script>
+  <script defer src="js/layout.js"></script>
+  <script defer src="js/pages/edit.js"></script>
+</head>
+<body data-page="edit">
+  <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+  <header id="site-header" class="site-header"></header>
+
+  <main id="main" tabindex="-1" class="container page">
+    <a href="log.html" class="back-link" data-i18n="action.back"></a>
+    <h1 id="editTitle"></h1>
+    <div id="notFound" class="empty" hidden>
+      <h2 data-i18n="workout.notFound"></h2>
+      <p data-i18n="workout.notFoundText"></p>
+      <a class="btn" href="log.html" data-i18n="action.back"></a>
+    </div>
+
+    <form id="wForm" class="w-form" novalidate>
+      <div id="errorSummary" class="error-summary" role="alert" tabindex="-1" hidden></div>
+
+      <fieldset class="form-section">
+        <legend data-i18n="edit.basics"></legend>
+        <fieldset class="field">
+          <legend class="field-label" data-i18n="field.type"></legend>
+          <div id="typeRadios" class="chips"></div>
+        </fieldset>
+        <div class="field">
+          <label for="name" data-i18n="field.name"></label>
+          <input id="name" name="name" class="input" maxlength="60" autocomplete="off" aria-describedby="name-err">
+          <p id="name-err" class="field-error"></p>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="date" data-i18n="field.date"></label>
+            <input id="date" name="date" type="date" class="input" aria-describedby="date-err">
+            <p id="date-err" class="field-error"></p>
+          </div>
+          <div class="field">
+            <label for="time" data-i18n="field.time"></label>
+            <input id="time" name="time" type="time" class="input">
+          </div>
+          <div class="field">
+            <label for="duration" data-i18n="field.duration"></label>
+            <input id="duration" name="duration" type="number" min="1" max="600" inputmode="numeric" class="input" aria-describedby="duration-hint duration-err">
+            <p id="duration-hint" class="hint" data-i18n="field.durationHint"></p>
+            <p id="duration-err" class="field-error"></p>
+          </div>
+        </div>
+        <fieldset class="field">
+          <legend class="field-label" data-i18n="field.feel"></legend>
+          <div id="feelRadios" class="feel"></div>
+        </fieldset>
+      </fieldset>
+
+      <fieldset class="form-section" id="strengthSection">
+        <legend data-i18n="edit.exercises"></legend>
+        <div id="exList" class="ex-list"></div>
+        <div class="add-ex">
+          <div class="field">
+            <label for="exPick" data-i18n="edit.pick"></label>
+            <select id="exPick" class="select"></select>
+          </div>
+          <button type="button" id="addEx" class="btn btn-ghost" data-i18n="edit.addExercise"></button>
+        </div>
+        <p id="ex-err" class="field-error" aria-live="polite"></p>
+      </fieldset>
+
+      <fieldset class="form-section" id="cardioSection">
+        <legend data-i18n="edit.cardio"></legend>
+        <div class="form-row">
+          <div class="field">
+            <label for="activity" data-i18n="field.activity"></label>
+            <select id="activity" class="select"></select>
+          </div>
+          <div class="field">
+            <label for="km" data-i18n="field.km"></label>
+            <input id="km" name="km" type="number" step="0.1" min="0" inputmode="decimal" class="input" aria-describedby="km-err">
+            <p id="km-err" class="field-error"></p>
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="field">
+        <label for="notes" data-i18n="field.notes"></label>
+        <textarea id="notes" name="notes" class="input" rows="3" maxlength="500"></textarea>
+      </div>
+
+      <aside class="live-summary" aria-labelledby="sumTitle">
+        <h2 id="sumTitle" data-i18n="edit.summary"></h2>
+        <dl id="liveSum"></dl>
+      </aside>
+
+      <div class="form-actions">
+        <button type="submit" class="btn" data-i18n="action.save"></button>
+        <a id="cancelLink" href="log.html" class="btn btn-ghost" data-i18n="action.cancel"></a>
+      </div>
+    </form>
+  </main>
+
+  <footer id="site-footer" class="site-footer"></footer>
+  <div id="toasts" class="toast-host"></div>
+</body>
+</html>

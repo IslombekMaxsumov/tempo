@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fitness</title>
+  <meta name="description" content="">
+  <meta name="theme-color" content="#f3f6fb">
+  <!-- Apply the saved theme before the page is drawn, so it never flashes. -->
+  <script>
+    window.APP_NS = "fitness";
+    try {
+      var savedTheme = localStorage.getItem("fitness:theme");
+      document.documentElement.setAttribute("data-theme", savedTheme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+    } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/site.css">
+  <script defer src="js/core.js"></script>
+  <script defer src="js/lang.js"></script>
+  <script defer src="js/data-exercises.js"></script>
+  <script defer src="js/fit.js"></script>
+  <script defer src="js/layout.js"></script>
+  <script defer src="js/charts.js"></script>
+  <script defer src="js/pages/progress.js"></script>
+</head>
+<body data-page="progress">
+  <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+  <header id="site-header" class="site-header"></header>
+
+  <main id="main" tabindex="-1" class="container page">
+    <div class="page-head">
+      <h1 data-i18n="page.progress"></h1>
+      <fieldset class="range-pick">
+        <legend class="visually-hidden" data-i18n="progress.range"></legend>
+        <div id="rangeRadios" class="seg seg-range"></div>
+      </fieldset>
+    </div>
+    <div id="totals" class="totals-row"></div>
+    <section class="section chart-section" aria-labelledby="minTitle">
+      <h2 id="minTitle" data-i18n="progress.minutes"></h2>
+      <div id="minChart"></div>
+    </section>
+    <section class="section chart-section" aria-labelledby="volTitle">
+      <h2 id="volTitle" data-i18n="progress.volume"></h2>
+      <div id="volChart"></div>
+    </section>
+    <section class="section chart-section" aria-labelledby="typeTitle">
+      <h2 id="typeTitle" data-i18n="progress.types"></h2>
+      <div id="typeChart"></div>
+    </section>
+    <section class="section" aria-labelledby="prTitle">
+      <h2 id="prTitle" data-i18n="progress.records"></h2>
+      <div id="records"></div>
+    </section>
+  </main>
+
+  <footer id="site-footer" class="site-footer"></footer>
+  <div id="toasts" class="toast-host"></div>
+</body>
+</html>

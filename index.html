@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fitness</title>
+  <meta name="description" content="">
+  <meta name="theme-color" content="#f3f6fb">
+  <!-- Apply the saved theme before the page is drawn, so it never flashes. -->
+  <script>
+    window.APP_NS = "fitness";
+    try {
+      var savedTheme = localStorage.getItem("fitness:theme");
+      document.documentElement.setAttribute("data-theme", savedTheme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+    } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/site.css">
+  <script defer src="js/core.js"></script>
+  <script defer src="js/lang.js"></script>
+  <script defer src="js/data-exercises.js"></script>
+  <script defer src="js/fit.js"></script>
+  <script defer src="js/layout.js"></script>
+  <script defer src="js/pages/today.js"></script>
+</head>
+<body data-page="today">
+  <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+  <header id="site-header" class="site-header"></header>
+
+  <main id="main" tabindex="-1" class="container page">
+    <section class="today-head">
+      <p id="todayDate" class="eyebrow"></p>
+      <h1 id="greeting"></h1>
+      <p id="nudge" class="nudge"></p>
+    </section>
+
+    <div id="emptyAll" class="empty" hidden>
+      <h2 data-i18n="today.emptyTitle"></h2>
+      <p data-i18n="today.emptyText"></p>
+      <a class="btn" href="edit.html" data-i18n="action.addFirst"></a>
+    </div>
+
+    <section class="section" aria-labelledby="weekTitle">
+      <h2 id="weekTitle" data-i18n="today.week"></h2>
+      <div id="rings" class="rings"></div>
+    </section>
+
+    <section class="section streak-week" aria-labelledby="streakTitle">
+      <h2 id="streakTitle" class="visually-hidden" data-i18n="today.streakTitle"></h2>
+      <div id="streak" class="streak"></div>
+      <ol id="weekStrip" class="week-strip"></ol>
+    </section>
+
+    <section class="section" aria-labelledby="recentTitle">
+      <div class="section-head">
+        <h2 id="recentTitle" data-i18n="today.recent"></h2>
+        <a href="log.html" aria-describedby="recentTitle" data-i18n="action.seeAll"></a>
+      </div>
+      <div id="recent" class="workout-list"></div>
+    </section>
+  </main>
+
+  <footer id="site-footer" class="site-footer"></footer>
+  <div id="toasts" class="toast-host"></div>
+</body>
+</html>

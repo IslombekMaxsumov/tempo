@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fitness</title>
+  <meta name="description" content="">
+  <meta name="theme-color" content="#f3f6fb">
+  <!-- Apply the saved theme before the page is drawn, so it never flashes. -->
+  <script>
+    window.APP_NS = "fitness";
+    try {
+      var savedTheme = localStorage.getItem("fitness:theme");
+      document.documentElement.setAttribute("data-theme", savedTheme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+    } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/site.css">
+  <script defer src="js/core.js"></script>
+  <script defer src="js/lang.js"></script>
+  <script defer src="js/data-exercises.js"></script>
+  <script defer src="js/fit.js"></script>
+  <script defer src="js/layout.js"></script>
+  <script defer src="js/pages/log.js"></script>
+</head>
+<body data-page="log">
+  <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+  <header id="site-header" class="site-header"></header>
+
+  <main id="main" tabindex="-1" class="container page">
+    <div class="page-head">
+      <h1 data-i18n="page.log"></h1>
+      <a class="btn" href="edit.html" data-i18n="action.add"></a>
+    </div>
+
+    <form id="filters" class="filters" role="search" novalidate>
+      <div class="field">
+        <label for="q" data-i18n="filters.search"></label>
+        <input id="q" type="search" class="input" autocomplete="off" data-i18n-placeholder="filters.searchPh">
+      </div>
+      <fieldset>
+        <legend data-i18n="filters.type"></legend>
+        <div id="typeChips" class="chips"></div>
+      </fieldset>
+      <div class="field">
+        <label for="from" data-i18n="filters.from"></label>
+        <input id="from" type="date" class="input">
+      </div>
+      <div class="field">
+        <label for="to" data-i18n="filters.to"></label>
+        <input id="to" type="date" class="input" aria-describedby="dateError">
+      </div>
+      <p id="dateError" class="field-error" aria-live="polite"></p>
+      <button type="button" id="clear" class="btn btn-ghost" data-i18n="filters.clear"></button>
+    </form>
+
+    <p id="resultCount" class="result-count" role="status"></p>
+    <div id="weeks" class="weeks"></div>
+    <div id="empty" class="empty" hidden>
+      <h2 data-i18n="log.emptyTitle"></h2>
+      <p data-i18n="log.emptyText"></p>
+      <button type="button" id="emptyClear" class="btn" data-i18n="filters.clear"></button>
+    </div>
+  </main>
+
+  <footer id="site-footer" class="site-footer"></footer>
+  <div id="toasts" class="toast-host"></div>
+</body>
+</html>
