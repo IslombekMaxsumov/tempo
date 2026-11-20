@@ -2,99 +2,103 @@
    TEMPO design system: tokens, reset, type, buttons, form
    fields, dialog, toast. Layout and page parts are in site.css.
 
-   Colours follow the TEMPO brief ("Athletic Editorial"). The brief's
-   orange and category colours are kept for shapes, icons and charts;
-   where they were too light for TEXT (WCAG AA 4.5:1) or for control
-   borders (3:1) a darker "-text" shade is used. Each change notes the
-   brief's original value.
+   Direction "Cool Mineral / Performance Instrument": blue-grey
+   mineral backgrounds, graphite and slate, petrol teal as the brand
+   colour and citron only for important data (records, this week).
+   Every text colour passes WCAG AA (4.5:1) on all three surfaces and
+   control borders reach 3:1. In light mode the pale citron is only
+   used as a fill under dark text; chart highlights use a deeper
+   olive-citron (--chart-4) so the mark stays visible (3:1).
    ========================================================== */
 
 :root,
 :root[data-theme="light"] {
   color-scheme: light;
-  --bg: #f3f1eb;
-  --surface: #ffffff;
-  --raised: #eceae3;
-  --ink: #242522;
-  --ink-2: #696962;          /* brief #77766F (4.0:1 on the background) */
-  --muted: #8a887f;          /* decorative only (icons, rules), never body text */
-  --line: #dfddd5;
-  --line-strong: #86847e;    /* brief #C9C6BC: control borders need 3:1, it was 1.5:1 */
-  --brand: #e56a3b;          /* the signature orange: rings, bars, marks */
-  --accent: #bf5831;         /* brief #E56A3B: white button text on it was 3.3:1 */
-  --accent-hover: #a8461f;   /* brief #CB542D (4.3:1) */
-  --accent-text: #a94e2c;    /* orange for small text and links */
+  --bg: #dfe6e9;
+  --surface: #f4f7f8;
+  --raised: #d2dbdf;
+  --ink: #172127;
+  --ink-2: #4a5a62;
+  --muted: #7c8a92;          /* decorative only (icons, rules), never body text */
+  --line: #c3ced3;
+  --line-strong: #637480;    /* control borders, 3:1 */
+  --brand: #1c6870;          /* petrol teal: rings, bars, marks */
+  --accent: #1c6870;
+  --accent-hover: #154f56;
+  --accent-text: #18606a;
   --on-accent: #ffffff;
-  --accent-soft: #f8e5dc;
-  --highlight: #e7d5b8;
-  --danger: #bc3b36;         /* brief #C83F39 (4.1:1 on raised) */
-  --danger-soft: #f6dfdc;
-  --ok: #337451;
-  --warn: #8f5d1f;           /* brief #A86D24 (3.6:1) */
-  --focus: #b94a2d;
+  --accent-soft: #cfe4e5;
+  --highlight: #d4dc3f;      /* citron: personal records, key data */
+  --on-highlight: #172127;   /* text on citron is always dark */
+  --danger: #a93636;
+  --danger-soft: #f1dcdc;
+  --ok: #255f3e;
+  --warn: #6b4e0f;
+  --focus: #18606a;
 
   /* workout categories: -fill for icons/charts, -text for words */
-  --c-strength: #d95d38;  --c-strength-text: #ae4a2d;  /* brief #D95D38 as text: 3.1:1 */
-  --c-cardio: #3978b9;    --c-cardio-text: #326aa4;
-  --c-sport: #b27a27;     --c-sport-text: #8c601f;
-  --c-flex: #368779;      --c-flex-text: #2e7367;
-  --c-other: #777d78;     --c-other-text: #656a66;
+  --c-strength: #1c6870;  --c-strength-text: #18606a;
+  --c-cardio: #3a619a;    --c-cardio-text: #33558c;
+  --c-sport: #8c8416;     --c-sport-text: #625c0e;
+  --c-flex: #3f7458;      --c-flex-text: #31604a;
+  --c-other: #6b767c;     --c-other-text: #5a646a;
 
-  --chart-1: #e56a3b;
-  --chart-2: #3978b9;
-  --chart-3: #368779;
-  --chart-4: #b27a27;
-  --chart-neutral: #929087;
-  --chart-grid: #dfddd5;
+  --chart-1: #1c6870;
+  --chart-2: #3a619a;
+  --chart-3: #3f7458;
+  --chart-4: #7e8414;        /* olive-citron: "this week" in charts */
+  --chart-neutral: #7c8a92;
+  --chart-grid: #c3ced3;
 
-  --toast-bg: #242522;
-  --toast-ink: #f4f1ea;
-  --toast-action: #ff9167;
-  --backdrop: rgba(36, 37, 34, 0.5);
-  --shadow-pop: 0 1px 2px rgba(36, 37, 34, 0.08), 0 12px 32px -10px rgba(36, 37, 34, 0.3);
+  --toast-bg: #172127;
+  --toast-ink: #e4ebee;
+  --toast-action: #d4dc3f;
+  --backdrop: rgba(23, 33, 39, 0.5);
+  --shadow-pop: 0 1px 2px rgba(23, 33, 39, 0.1), 0 12px 32px -10px rgba(23, 33, 39, 0.35);
 }
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #1d211f;
-  --surface: #282d29;
-  --raised: #323934;
-  --ink: #f4f1ea;
-  --ink-2: #b0aea5;
-  --muted: #898d84;
-  --line: #414941;
-  --line-strong: #7d837c;    /* brief #596158 (1.9:1 on raised) */
-  --brand: #f17b4c;
-  --accent: #f17b4c;
-  --accent-hover: #ff9167;
-  --accent-text: #f28053;    /* brief #F17B4C (4.3:1 on raised) */
-  --on-accent: #211d1a;
-  --accent-soft: #472f25;
-  --highlight: #594630;
-  --danger: #f18078;         /* brief #F07870 (4.3:1 on raised) */
-  --danger-soft: #4a2826;
-  --ok: #70b78a;
-  --warn: #e6b16b;
-  --focus: #ff9167;
+  --bg: #11171a;
+  --surface: #192125;
+  --raised: #222c31;
+  --ink: #e4ebee;
+  --ink-2: #9babb2;
+  --muted: #6f8089;
+  --line: #2c383e;
+  --line-strong: #647780;
+  --brand: #5db6b9;
+  --accent: #5db6b9;
+  --accent-hover: #74c9ca;
+  --accent-text: #6cc2c4;
+  --on-accent: #0d1416;
+  --accent-soft: #163236;
+  --highlight: #d7e15a;
+  --on-highlight: #11171a;
+  --danger: #ef8080;
+  --danger-soft: #3a2224;
+  --ok: #74be92;
+  --warn: #e2be6a;
+  --focus: #74c9ca;
 
-  --c-strength: #f17b4c;  --c-strength-text: #f28053;
-  --c-cardio: #78a9e5;    --c-cardio-text: #78a9e5;
-  --c-sport: #e5b35e;     --c-sport-text: #e5b35e;
-  --c-flex: #66b9a8;      --c-flex-text: #66b9a8;
-  --c-other: #a6ada5;     --c-other-text: #a6ada5;
+  --c-strength: #5db6b9;  --c-strength-text: #5db6b9;
+  --c-cardio: #86aadd;    --c-cardio-text: #86aadd;
+  --c-sport: #d2cc5c;     --c-sport-text: #d2cc5c;
+  --c-flex: #8ebb9e;      --c-flex-text: #8ebb9e;
+  --c-other: #a3b0b6;     --c-other-text: #a3b0b6;
 
-  --chart-1: #f17b4c;
-  --chart-2: #78a9e5;
-  --chart-3: #66b9a8;
-  --chart-4: #e5b35e;
-  --chart-neutral: #898d84;
-  --chart-grid: #414941;
+  --chart-1: #5db6b9;
+  --chart-2: #86aadd;
+  --chart-3: #8ebb9e;
+  --chart-4: #d7e15a;
+  --chart-neutral: #6f8089;
+  --chart-grid: #2c383e;
 
-  --toast-bg: #f4f1ea;
-  --toast-ink: #242522;
-  --toast-action: #a94e2c;
+  --toast-bg: #e4ebee;
+  --toast-ink: #11171a;
+  --toast-action: #18606a;
   --backdrop: rgba(0, 0, 0, 0.62);
-  --shadow-pop: 0 1px 2px rgba(0, 0, 0, 0.35), 0 14px 36px -10px rgba(0, 0, 0, 0.7);
+  --shadow-pop: 0 1px 2px rgba(0, 0, 0, 0.4), 0 14px 36px -10px rgba(0, 0, 0, 0.75);
 }
 
 :root {
@@ -176,7 +180,7 @@ table { border-collapse: collapse; }
 }
 .select {
   appearance: none; padding-right: 36px; cursor: pointer;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%2386847e' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23637480' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat; background-position: right 12px center;
 }
 .input::placeholder { color: var(--ink-2); opacity: 1; }

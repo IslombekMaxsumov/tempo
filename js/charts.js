@@ -75,7 +75,7 @@
         const top = y(it.value);
         return svgEl("g", null,
           svgEl("rect", {
-            class: "mark bar" + (goal && it.value >= goal ? " is-hit" : ""), x, y: top, width: bw,
+            class: "mark bar" + (goal && it.value >= goal ? " is-hit" : "") + (i === items.length - 1 ? " is-current" : ""), x, y: top, width: bw,
             height: Math.max(0, y(0) - top), rx: 3, tabindex: 0, "aria-label": it.label + ": " + it.tip,
           }),
           svgEl("text", { class: "x-label", x: x + bw / 2, y: H - 8, "text-anchor": "middle" }, document.createTextNode(it.short || it.label))

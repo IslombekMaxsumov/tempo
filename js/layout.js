@@ -213,9 +213,6 @@
   // Detail pages belong to a menu item.
   const SECTION = { today: "today", log: "log", workout: "log", progress: "progress", goals: "goals", exercises: "exercises", exercise: "exercises" };
 
-  // The TEMPO mark: three bars like beats getting stronger (fixed drawing, no user data).
-  const MARK = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><rect x="3" y="13" width="4" height="8" rx="1" fill="var(--brand)" opacity=".45"/><rect x="10" y="8" width="4" height="13" rx="1" fill="var(--brand)" opacity=".7"/><rect x="17" y="3" width="4" height="18" rx="1" fill="var(--brand)"/></svg>';
-
   // On phones the menu is a tab bar at the bottom of the screen and "Add
   // workout" is a round button above it (see site.css); on wide screens both
   // sit in the header.
@@ -233,8 +230,11 @@
       ["uz", "ru", "en"].map((code) => el("button", { type: "button", "data-lang": code, lang: code, text: code.toUpperCase() }))
     );
     const theme = el("button", { type: "button", id: "themeToggle", class: "icon-btn" }, icon("sun", 18), icon("moon", 18));
-    const brand = el("a", { class: "brand", href: "index.html" }, el("span", { class: "brand-mark" }), el("span", { class: "brand-name", "data-i18n": "brand" }));
-    brand.querySelector(".brand-mark").innerHTML = MARK;
+    // The logo files (assets/brand); CSS shows the one that fits the theme.
+    const brand = el("a", { class: "brand", href: "index.html" },
+      el("img", { class: "logo-light", src: "assets/brand/tempo-logo.svg", alt: "TEMPO", width: 171, height: 48 }),
+      el("img", { class: "logo-dark", src: "assets/brand/tempo-logo-dark.svg", alt: "TEMPO", width: 171, height: 48 })
+    );
 
     host.append(el("div", { class: "container header-bar" }, brand, nav, el("div", { class: "header-tools" }, add, langs, theme)));
     document.body.classList.add("has-tabbar");

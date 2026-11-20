@@ -2,8 +2,8 @@
    TEMPO layout and page parts ("Athletic Editorial").
    Hierarchy comes from type, spacing and thin rules; only charts,
    goals and a few panels are boxed. Tokens are in base.css.
-   Signature detail: the three-bar "beat" mark beside section
-   headings and in the logo.
+   Signature detail: the instrument dial from the logo, beside
+   section headings; citron marks only the data that matters.
    ========================================================== */
 
 .container { width: min(100% - 32px, 1120px); margin-inline: auto; }
@@ -23,7 +23,7 @@
 }
 .section > h2::before, .section-head h2::before, .chart-section h2::before {
   content: ""; flex: none; width: 14px; height: 14px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Crect x='0' y='8' width='3' height='6' rx='.8' fill='%23e56a3b' opacity='.45'/%3E%3Crect x='5.5' y='4' width='3' height='10' rx='.8' fill='%23e56a3b' opacity='.7'/%3E%3Crect x='11' y='0' width='3' height='14' rx='.8' fill='%23e56a3b'/%3E%3C/svg%3E") no-repeat center / contain;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M12.7 35.3A16 16 0 1 1 35.3 35.3' fill='none' stroke='%233e9a9e' stroke-width='7' stroke-linecap='round'/%3E%3Cpath d='M24 24 33 13' stroke='%233e9a9e' stroke-width='6' stroke-linecap='round'/%3E%3Ccircle cx='24' cy='24' r='6' fill='%23c9d23c'/%3E%3C/svg%3E") no-repeat center / contain;
 }
 .section > h2, .chart-section h2 { margin-bottom: var(--s4); }
 .section-head, .page-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--s2) var(--s4); }
@@ -48,7 +48,10 @@
 .site-header { position: sticky; top: 0; z-index: 40; background: var(--bg); border-bottom: 1px solid var(--line); }
 .header-bar { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); min-height: var(--header-h); }
 .brand { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); text-decoration: none; padding: 6px 0; }
-.brand-name { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; letter-spacing: 0.08em; }
+.brand img { height: 32px; width: auto; }
+.logo-dark { display: none; }
+:root[data-theme="dark"] .logo-light { display: none; }
+:root[data-theme="dark"] .logo-dark { display: block; }
 .header-tools { display: flex; align-items: center; gap: var(--s2); }
 .seg { display: inline-flex; gap: 2px; padding: 3px; border: 1.5px solid var(--line); border-radius: var(--r-ctl); }
 .seg button { min-width: 36px; min-height: 34px; padding: 4px 6px; border: 0; border-radius: 5px; background: transparent; color: var(--ink-2); font-size: 0.8rem; font-weight: 700; }
@@ -93,6 +96,8 @@
 /* Between 980 and 1200px the long "Add workout" label (Russian especially)
    doesn't fit, so the button shows just "+" (its name stays for screen readers). */
 @media (min-width: 980px) and (max-width: 1199px) {
+  .header-bar { gap: var(--s3); }
+  .site-nav a { padding-inline: 8px; }
   .add-btn { width: 44px; padding: 0; }
   .add-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 }
@@ -219,7 +224,7 @@
 .ex-block h3 { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2); font-size: 1.0625rem; font-weight: 600; margin-bottom: var(--s2); }
 .ex-block h3 a { color: var(--ink); text-decoration: none; }
 .ex-block h3 a:hover { color: var(--accent-text); text-decoration: underline; }
-.pr-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 6px; background: var(--highlight); color: var(--ink); font-family: var(--font-body); font-size: 0.75rem; font-weight: 700; }
+.pr-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 6px; background: var(--highlight); color: var(--on-highlight); font-family: var(--font-body); font-size: 0.75rem; font-weight: 700; }
 .sets-table, .records-table, .chart-table table { width: 100%; font-size: 0.9375rem; }
 .sets-table th, .sets-table td, .records-table th, .records-table td, .chart-table th, .chart-table td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--line); }
 .sets-table thead th, .records-table thead th, .chart-table thead th { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); }
@@ -290,6 +295,7 @@
 .chart text { fill: var(--ink-2); font-size: 12px; font-family: var(--font-body); }
 .chart .bar { fill: var(--chart-1); opacity: 0.55; transition: opacity 0.15s; }
 .chart .bar.is-hit { opacity: 1; }
+.chart .bar.is-current { fill: var(--chart-4); opacity: 1; } /* this week, in citron */
 .chart .bar:hover, .chart .bar:focus { opacity: 1; }
 .chart .line { stroke: var(--chart-2); stroke-width: 2.5; stroke-linejoin: round; }
 .chart .dot { fill: var(--surface); stroke: var(--chart-2); stroke-width: 2.5; }
